@@ -22,21 +22,31 @@ const Converter = () => {
             `rgb(${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)})`
            : "Ошибка!";
       }
-
-      const styles = {
-        backgroundColor: hexToRgb(form.name),
+      
+      const drowStyle = () => {
+        let styles = {
+          backgroundColor: 'white',
+        };
+        const style = hexToRgb(form.name)
+        if(style === "Ошибка!"){
+          styles.backgroundColor = 'red'
+        } else {
+          styles.backgroundColor = style
+        }
+       return styles
       }
+     
 
     return (
         <div className="converter"
-        style={styles}>
+        style={drowStyle()}>
           <input className='input-data' 
           id='input-data' 
           name='name'
           value={form.name}
           onChange={handleChange}>
           </input>
-          <div className='output-data'>
+          <div className='output-data'> 
            {hexToRgb(form.name)}
           </div>
         </div>
