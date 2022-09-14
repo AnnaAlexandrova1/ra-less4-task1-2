@@ -1,0 +1,9 @@
+import { nanoid } from 'nanoid'
+
+const itemsList = [
+    {date: '01.09.2022', distance:8, id:nanoid()},
+    {date: '05.09.2022', distance:4, id:nanoid()},
+    {date: '08.09.2022', distance:9, id:nanoid()},
+]
+
+export default itemsList;
