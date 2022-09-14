@@ -42,6 +42,7 @@ const Converter = () => {
         style={drowStyle()}>
           <input className='input-data' 
           id='input-data' 
+          placeholder='Введите цвет'
           name='name'
           value={form.name}
           onChange={handleChange}>

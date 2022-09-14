@@ -1,11 +1,11 @@
 .converter {
     width: 85%;
-    margin: 50px auto;
-    min-height: 600px;
+    margin: 20px auto;
+    min-height: 400px;
     text-align: center;
 }
 .input-data{
-    margin-top: 285px;
+    margin-top: 180px;
     margin-right: auto;
     margin-left: auto;
     border: 1px solid grey;  
