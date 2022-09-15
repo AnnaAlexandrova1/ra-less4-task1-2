@@ -1,12 +1,21 @@
 import { useState } from 'react';
-import './TrainingAcc.css'
 import { nanoid } from 'nanoid'
-
+import './TrainingAcc.css'
 import itemsList from './data';
 
 const TrainingAcc = () => {
+
+    const filter = (arr) => {
+        return arr.sort((a,b) => {
+         console.log(`comparing ${Date.parse(a.date)},${Date.parse(b.date)}`);
+         return Date.parse(a.date) > Date.parse(b.date) ? 1
+                    : Date.parse(a.date) === Date.parse(b.date) ? 0
+                              : -1;
+        })
+     }
+
     const[form, setForm]=useState({
-        itemsList: itemsList,
+        itemsList: filter(itemsList),
         });
     
     const onSubmit = (evt) => {
@@ -14,15 +23,9 @@ const TrainingAcc = () => {
     setForm(prevForm => ({...prevForm, [itemsList]: addNewItem(itemsList, evt) }));
     }
 
-// фильтр по дате
-const filterDate = (arr) => {
-        arr.sort((a, b) => a.date.getTime() > b.date.getTime() ? 1 : -1)
-    }
-
 const addNewItem = (iList, evt) => {
    // проверим не введена ли уже такая дата
     if(iList.find(i => i.date == evt.target.date.value)){
-        //console.log(iList.filter(i => i.date == evt.target.date.value))
         return iList.map(item => {
             if(item.date == evt.target.date.value){
                 return {...item.distance = item.distance + +evt.target.distance.value }
@@ -31,6 +34,7 @@ const addNewItem = (iList, evt) => {
             }
         })
     }
+
      // проверим подходят ли данные по формату
     const checkFormat = () => {
         const dateReg = /^\d{2}([./-])\d{2}\1\d{4}$/
@@ -38,27 +42,24 @@ const addNewItem = (iList, evt) => {
         if(dateReg.test(evt.target.date.value) && reg.test(evt.target.distance.value)){
         return iList.push({date: evt.target.date.value, distance: +evt.target.distance.value, id: nanoid()})
         } else {
-        return iList;
+        return iList
         }
     }
     let newItemList = checkFormat()
     return newItemList
 }
 
-// суммируем значение в одинаковую дату
-/*
-const sumDate = (iList, evt) => {
-    //console.log(iList)
-        return iList.map(elem => {
-            if(elem.date == evt.target.date.value){
-                elem.distance = elem.distance  + evt.target.distance.value
-            }
-        })
-    } 
-*/
-
-
-console.log(form.itemsList)
+const renderList = form.itemsList.map(item => {
+    return (
+        <div className='history-point' key={item.id}>
+        <div>{item.date}</div>
+        <div>{item.distance}</div>
+        <div className='icons'>
+        <div className="material-icons clear">clear</div>
+        </div>
+    </div>
+    )
+})
 
 return (
     <div className='container'>
@@ -76,23 +77,13 @@ return (
         </div>
       </form>
       <div className='history'>
-
             <div className='history-title'>
                     <div>Дата(дд.мм.гггг)</div>
                     <div>Пройдено км</div>
                     <div>Действия</div>
             </div>
-
             <div className='frame'>
-                <div className='history-point'>
-                    <div>22.08.2022</div>
-                    <div>15</div>
-                    <div className='icons'>
-                    <div className="material-icons edit">edit</div>
-                    <div className="material-icons clear">clear</div>
-                    </div>
-                    
-                </div>
+            {renderList}
             </div>
         </div> 
     </div> 
