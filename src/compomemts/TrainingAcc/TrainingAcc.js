@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { nanoid } from 'nanoid'
-import './TrainingAcc.css'
+import { nanoid } from 'nanoid';
+import './TrainingAcc.css';
 import itemsList from './data';
 
 const TrainingAcc = () => {
-
+// функция фильтрации массива данных по дате
     const filter = (arr) => {
+        arr = arr.filter(item => item.onDelete === false)
         return arr.sort((a,b) => {
-         console.log(`comparing ${Date.parse(a.date)},${Date.parse(b.date)}`);
          return Date.parse(a.date) > Date.parse(b.date) ? 1
                     : Date.parse(a.date) === Date.parse(b.date) ? 0
                               : -1;
@@ -21,13 +21,15 @@ const TrainingAcc = () => {
     const onSubmit = (evt) => {
     evt.preventDefault()
     setForm(prevForm => ({...prevForm, [itemsList]: addNewItem(itemsList, evt) }));
-    }
+    evt.target.date.value=''
+    evt.target.distance.value=''
+}
 
 const addNewItem = (iList, evt) => {
    // проверим не введена ли уже такая дата
-    if(iList.find(i => i.date == evt.target.date.value)){
+    if(iList.find(i => i.date === evt.target.date.value)){
         return iList.map(item => {
-            if(item.date == evt.target.date.value){
+            if(item.date === evt.target.date.value){
                 return {...item.distance = item.distance + +evt.target.distance.value }
             } else {
                 return item
@@ -40,7 +42,7 @@ const addNewItem = (iList, evt) => {
         const dateReg = /^\d{2}([./-])\d{2}\1\d{4}$/
         const reg = /^[0-9]+$/
         if(dateReg.test(evt.target.date.value) && reg.test(evt.target.distance.value)){
-        return iList.push({date: evt.target.date.value, distance: +evt.target.distance.value, id: nanoid()})
+        return iList.push({date: evt.target.date.value, distance: +evt.target.distance.value, id: nanoid(), onDelete: false})
         } else {
         return iList
         }
