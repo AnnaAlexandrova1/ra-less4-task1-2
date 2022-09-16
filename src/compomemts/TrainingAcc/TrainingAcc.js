@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { nanoid } from 'nanoid';
 import './TrainingAcc.css';
 import itemsList from './data';
+import List from './List';
 
 const TrainingAcc = () => {
 // функция фильтрации массива данных по дате
@@ -14,15 +15,17 @@ const TrainingAcc = () => {
         })
      }
 
-    const[form, setForm]=useState({
-        itemsList: filter(itemsList),
-        });
+    const[form, setForm]=useState(itemsList);
     
     const onSubmit = (evt) => {
     evt.preventDefault()
     setForm(prevForm => ({...prevForm, [itemsList]: addNewItem(itemsList, evt) }));
     evt.target.date.value=''
     evt.target.distance.value=''
+}
+
+const onDelete = (id) => {
+    setForm((itemsList) => itemsList.filter((i) => i.id !== id));
 }
 
 const addNewItem = (iList, evt) => {
@@ -51,17 +54,6 @@ const addNewItem = (iList, evt) => {
     return newItemList
 }
 
-const renderList = form.itemsList.map(item => {
-    return (
-        <div className='history-point' key={item.id}>
-        <div>{item.date}</div>
-        <div>{item.distance}</div>
-        <div className='icons'>
-        <div className="material-icons clear">clear</div>
-        </div>
-    </div>
-    )
-})
 
 return (
     <div className='container'>
@@ -84,9 +76,7 @@ return (
                     <div>Пройдено км</div>
                     <div>Действия</div>
             </div>
-            <div className='frame'>
-            {renderList}
-            </div>
+            <List itemsList={form.itemsList} onDelete={onDelete}/>
         </div> 
     </div> 
     )
