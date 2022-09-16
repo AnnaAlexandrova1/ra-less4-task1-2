@@ -9,7 +9,7 @@ return (
         <div>{date}</div>
         <div>{distance}</div>
         <div className='icons'>
-        <div className="material-icons clear" onClick={onDelete}>clear</div>
+            <div className="material-icons clear" onClick={() => onDelete(id)}>clear</div>
         </div>
     </div>
     )   
