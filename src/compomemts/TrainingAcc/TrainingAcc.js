@@ -15,10 +15,6 @@ const TrainingAcc = () => {
                     : -1;
         })
     }
-    const resetForm = (evt) => {
-        evt.target.date.value = ''
-        evt.target.distance.value = ''
-    }
     const onSubmit = (evt) => {
         evt.preventDefault()
         // проверим не введена ли уже такая дата
